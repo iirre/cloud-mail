@@ -55,6 +55,11 @@
     <div class="email-signature">
       <div class="title">{{$t('emailSignature')}}</div>
       <div class="signature-tip">{{$t('emailSignatureTip')}}</div>
+      <div class="template-row">
+        <span class="template-label">{{$t('signatureTemplate')}}:</span>
+        <el-button v-for="tpl in signatureTemplates" :key="tpl.id" size="small"
+                   @click="applyTemplate(tpl)">{{ tpl.name }}</el-button>
+      </div>
       <tinyEditor :def-value="signatureDefValue" ref="signatureEditor" editor-id="signature-editor" />
       <div style="margin-top: 10px;">
         <el-button type="primary" @click="saveSignature" :loading="signatureSaving">{{$t('save')}}</el-button>
@@ -270,11 +275,23 @@ onMounted(() => {
 
 // 邮件签名
 import tinyEditor from '@/components/tiny-editor/index.vue'
+import { signatureTemplates } from '@/utils/signature-templates.js'
 
 const signatureEditor = ref(null)
 const signatureDefValue = ref('')
 const signatureSaving = ref(false)
 const SIGNATURE_KEY = 'mail_signature'
+
+function applyTemplate(tpl) {
+  ElMessageBox.confirm(t('applyTemplateConfirm', { name: tpl.name }), {
+    confirmButtonText: t('confirm'),
+    cancelButtonText: t('cancel'),
+    type: 'info'
+  }).then(() => {
+    signatureDefValue.value = ''
+    setTimeout(() => { signatureDefValue.value = tpl.html })
+  }).catch(() => {})
+}
 
 function loadSignature() {
   const saved = localStorage.getItem(SIGNATURE_KEY) || ''
@@ -420,6 +437,18 @@ function saveSignature() {
     .signature-tip {
       color: var(--regular-text-color);
       font-size: 13px;
+    }
+
+    .template-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+
+      .template-label {
+        font-size: 13px;
+        color: var(--regular-text-color);
+      }
     }
   }
 }

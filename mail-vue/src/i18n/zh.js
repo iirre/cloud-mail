@@ -42,6 +42,8 @@ const zh = {
     unbindSuccessMsg: '解绑成功',
     emailSignature: '邮件签名',
     emailSignatureTip: '写新邮件时自动附在正文末尾，支持富文本（logo、颜色、链接等）',
+    signatureTemplate: '品牌模板',
+    applyTemplateConfirm: '确定要用「{name}」模板覆盖当前签名吗？',
     totalReceived: '收件数量',
     totalSent: '发送数量',
     totalMailboxes: '邮箱数量',

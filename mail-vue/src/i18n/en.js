@@ -42,6 +42,8 @@ const en = {
     unbindSuccessMsg: 'Unbound successfully',
     emailSignature: 'Email Signature',
     emailSignatureTip: 'Automatically appended to new emails. Rich text supported (logo, colors, links, etc.)',
+    signatureTemplate: 'Brand Templates',
+    applyTemplateConfirm: 'Replace current signature with the "{name}" template?',
     totalReceived: 'Total Received',
     totalSent: 'Total Sent',
     totalMailboxes: 'Total Email Addresses',
