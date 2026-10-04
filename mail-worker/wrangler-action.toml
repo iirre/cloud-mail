@@ -22,8 +22,8 @@ id = "${KV_NAMESPACE_ID}"
 binding = "r2"
 bucket_name = "${R2_BUCKET_NAME}"
 
-[ai]
-binding = "ai"
+# [ai] 临时禁用：Cloudflare API 10021 错误
+# binding = "ai"
 
 [assets]
 binding = "assets"
