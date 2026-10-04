@@ -52,6 +52,14 @@
         </div>
       </div>
     </div>
+    <div class="email-signature">
+      <div class="title">{{$t('emailSignature')}}</div>
+      <div class="signature-tip">{{$t('emailSignatureTip')}}</div>
+      <tinyEditor :def-value="signatureDefValue" ref="signatureEditor" editor-id="signature-editor" />
+      <div style="margin-top: 10px;">
+        <el-button type="primary" @click="saveSignature" :loading="signatureSaving">{{$t('save')}}</el-button>
+      </div>
+    </div>
     <div class="del-email" v-perm="'my:delete'">
       <div class="title">{{$t('deleteUser')}}</div>
       <div style="color: var(--regular-text-color);">
@@ -257,7 +265,35 @@ function confirmUnbind(platform) {
 
 onMounted(() => {
   loadOauthBindings()
+  loadSignature()
 })
+
+// 邮件签名
+import tinyEditor from '@/components/tiny-editor/index.vue'
+
+const signatureEditor = ref(null)
+const signatureDefValue = ref('')
+const signatureSaving = ref(false)
+const SIGNATURE_KEY = 'mail_signature'
+
+function loadSignature() {
+  const saved = localStorage.getItem(SIGNATURE_KEY) || ''
+  signatureDefValue.value = ''
+  setTimeout(() => { signatureDefValue.value = saved })
+}
+
+function saveSignature() {
+  if (signatureSaving.value) return
+  signatureSaving.value = true
+  const content = signatureEditor.value?.getContent() || ''
+  localStorage.setItem(SIGNATURE_KEY, content)
+  ElMessage({
+    message: t('saveSuccessMsg'),
+    type: 'success',
+    plain: true,
+  })
+  signatureSaving.value = false
+}
 
 </script>
 <style scoped lang="scss">
@@ -367,6 +403,23 @@ onMounted(() => {
       display: flex;
       justify-content: space-between;
       align-items: center;
+    }
+  }
+
+  .email-signature {
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 40px;
+
+    .title {
+      font-weight: bold;
+    }
+
+    .signature-tip {
+      color: var(--regular-text-color);
+      font-size: 13px;
     }
   }
 }

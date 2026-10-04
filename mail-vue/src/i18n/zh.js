@@ -40,6 +40,8 @@ const zh = {
     unbind: '解绑',
     unbindConfirm: '确定要解绑 {platform} 账号吗？解绑后可重新绑定其他账号。',
     unbindSuccessMsg: '解绑成功',
+    emailSignature: '邮件签名',
+    emailSignatureTip: '写新邮件时自动附在正文末尾，支持富文本（logo、颜色、链接等）',
     totalReceived: '收件数量',
     totalSent: '发送数量',
     totalMailboxes: '邮箱数量',

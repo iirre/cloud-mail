@@ -40,6 +40,8 @@ const en = {
     unbind: 'Unbind',
     unbindConfirm: 'Are you sure to unbind {platform}? You can bind another account after unbinding.',
     unbindSuccessMsg: 'Unbound successfully',
+    emailSignature: 'Email Signature',
+    emailSignatureTip: 'Automatically appended to new emails. Rich text supported (logo, colors, links, etc.)',
     totalReceived: 'Total Received',
     totalSent: 'Total Sent',
     totalMailboxes: 'Total Email Addresses',
