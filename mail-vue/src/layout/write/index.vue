@@ -518,10 +518,7 @@ function open() {
   }
   // 新邮件自动带上签名
   const signature = localStorage.getItem('mail_signature') || ''
-  defValue.value = ''
-  if (signature) {
-    setTimeout(() => { defValue.value = '<br/><br/>' + signature })
-  }
+  defValue.value = signature ? '<br/><br/>' + signature : ''
   show.value = true;
   editor.value.focus()
 }
