@@ -32,6 +32,7 @@ const en = {
     username: 'Username',
     trustLevel: 'Level',
     password: 'Password',
+    bindExistEmailTip: 'Required for existing email',
     delAccount: 'Delete Account',
     delAccountMsg: 'This will permanently delete your account and data. It cannot be reactivated',
     totalReceived: 'Total Received',

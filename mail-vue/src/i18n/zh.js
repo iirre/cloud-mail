@@ -32,6 +32,7 @@ const zh = {
     username: '用户名',
     trustLevel: '等级',
     password: '密码',
+    bindExistEmailTip: '已有邮箱必填',
     delAccount: '删除账户',
     delAccountMsg: '此操作将永久删除您的账户及其所有数据，无法恢复',
     totalReceived: '收件数量',

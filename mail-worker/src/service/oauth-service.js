@@ -12,7 +12,7 @@ const oauthService = {
 
 	async bindUser(c, params) {
 
-		const { email, oauthUserId, code } = params;
+		const { email, oauthUserId, code, password } = params;
 
 		const oauthRow = await this.getById(c, oauthUserId);
 
@@ -22,9 +22,16 @@ const oauthService = {
 			throw new BizError('用户已绑定有邮箱')
 		}
 
-		// 邮箱已存在则直接关联，不存在才注册新用户
-		userRow = await userService.selectByEmail(c, email);
-		if (!userRow) {
+		// 邮箱已存在：必须验证密码，防止他人冒用绑定
+		userRow = await userService.selectByEmailIncludeDel(c, email);
+		if (userRow) {
+			if (!password) {
+				throw new BizError(t('emptyPwd'));
+			}
+			if (!await cryptoUtils.verifyPassword(password, userRow.salt, userRow.password)) {
+				throw new BizError(t('IncorrectPwd'));
+			}
+		} else {
 			await loginService.register(c, { email, password: cryptoUtils.genRandomPwd(), code }, true);
 			userRow = await userService.selectByEmail(c, email);
 		}

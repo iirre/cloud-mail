@@ -1,5 +1,6 @@
 const en = {
 	IncorrectPwd: 'Incorrect password',
+	emptyPwd: 'Password cannot be empty',
 	addAccountDisabled: 'Add Email Address feature is disabled',
 	regDisabled: 'Sign up is disabled',
 	emptyEmail: 'Email cannot be empty',

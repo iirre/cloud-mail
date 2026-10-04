@@ -139,6 +139,8 @@
                   type="text" autocomplete="off" @keyup.enter="bind"/>
         <el-input v-if="settingStore.settings.regKey === 2" v-model="bindForm.code"
                   :placeholder="$t('regKeyOptional')" type="text" autocomplete="off" @keyup.enter="bind"/>
+        <el-input v-model="bindForm.password" :placeholder="$t('password') + '(' + $t('bindExistEmailTip') + ')'"
+                  type="password" autocomplete="off" @keyup.enter="bind"/>
         <el-button class="btn" type="primary" @click="bind" :loading="bindLoading"
         >绑定
         </el-button>
@@ -202,7 +204,8 @@ const oauthProviders = computed(() => {
 const bindForm = reactive({
   email: '',
   oauthUserId: '',
-  code: ''
+  code: '',
+  password: ''
 })
 
 const form = reactive({
@@ -387,7 +390,7 @@ function bind() {
 
   }
 
-  const form = {email, oauthUserId: bindForm.oauthUserId, code: bindForm.code}
+  const form = {email, oauthUserId: bindForm.oauthUserId, code: bindForm.code, password: bindForm.password}
 
   bindLoading.value = true
   oauthBindUser(form).then(data => {
