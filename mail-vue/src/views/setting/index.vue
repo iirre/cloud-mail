@@ -42,6 +42,16 @@
         <el-option label="English" value="en" @pointerdown.prevent.stop="changeLang('en')"/>
       </el-select>
     </div>
+    <div class="oauth-bindings">
+      <div class="title">{{$t('oauthBindings')}}</div>
+      <div v-if="oauthList.length === 0" class="oauth-empty">{{$t('noOauthBindings')}}</div>
+      <div v-else class="item" v-for="item in oauthList" :key="item.platform">
+        <div>{{ platformName(item.platform) }} ({{ item.username }})</div>
+        <div>
+          <el-button type="danger" size="small" @click="confirmUnbind(item.platform)" :loading="unbindLoading === item.platform">{{$t('unbind')}}</el-button>
+        </div>
+      </div>
+    </div>
     <div class="del-email" v-perm="'my:delete'">
       <div class="title">{{$t('deleteUser')}}</div>
       <div style="color: var(--regular-text-color);">
@@ -206,6 +216,49 @@ function submitPwd() {
 
 }
 
+// OAuth 绑定管理
+import {oauthMyBindings, oauthUnbind} from "@/request/ouath.js";
+import {onMounted} from 'vue'
+
+const oauthList = ref([])
+const unbindLoading = ref('')
+
+function platformName(platform) {
+  const names = { github: 'GitHub', google: 'Google', linuxdo: 'LinuxDo' }
+  return names[platform] || platform
+}
+
+function loadOauthBindings() {
+  oauthMyBindings().then(data => {
+    oauthList.value = data || []
+  }).catch(() => {})
+}
+
+function confirmUnbind(platform) {
+  ElMessageBox.confirm(t('unbindConfirm', { platform: platformName(platform) }), {
+    confirmButtonText: t('confirm'),
+    cancelButtonText: t('cancel'),
+    type: 'warning'
+  }).then(() => {
+    unbindLoading.value = platform
+    oauthUnbind(platform).then(() => {
+      ElMessage({
+        message: t('unbindSuccessMsg'),
+        type: 'success',
+        plain: true,
+      })
+      loadOauthBindings()
+    }).catch(() => {
+    }).finally(() => {
+      unbindLoading.value = ''
+    })
+  })
+}
+
+onMounted(() => {
+  loadOauthBindings()
+})
+
 </script>
 <style scoped lang="scss">
 .box {
@@ -293,6 +346,28 @@ function submitPwd() {
     display: flex;
     flex-direction: column;
     gap: 20px;
+  }
+
+  .oauth-bindings {
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 40px;
+
+    .title {
+      font-weight: bold;
+    }
+
+    .oauth-empty {
+      color: var(--regular-text-color);
+    }
+
+    .item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
   }
 }
 </style>

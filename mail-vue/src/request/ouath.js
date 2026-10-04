@@ -15,3 +15,11 @@ export function oauthGoogleLogin(code, redirectUri) {
 export function oauthBindUser(form) {
     return http.put('/oauth/bindUser', form)
 }
+
+export function oauthMyBindings() {
+    return http.get('/oauth/my')
+}
+
+export function oauthUnbind(platform) {
+    return http.delete('/oauth/unbind', { params: { platform } })
+}

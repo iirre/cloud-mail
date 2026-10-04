@@ -1,7 +1,7 @@
 import BizError from "../error/biz-error";
 import orm from "../entity/orm";
 import {oauth} from "../entity/oauth";
-import { eq, inArray } from 'drizzle-orm';
+import { eq, inArray, and } from 'drizzle-orm';
 import userService from "./user-service";
 import loginService from "./login-service";
 import cryptoUtils from "../utils/crypto-utils";
@@ -231,6 +231,22 @@ const oauthService = {
 
 	async deleteByUserId(c, userId) {
 		await this.deleteByUserIds(c, [userId]);
+	},
+
+	async listByUserId(c, userId) {
+		return await orm(c).select({
+			platform: oauth.platform,
+			username: oauth.username,
+			avatar: oauth.avatar,
+			createTime: oauth.createTime,
+		}).from(oauth).where(eq(oauth.userId, userId)).all();
+	},
+
+	async unbind(c, userId, platform) {
+		if (!platform) {
+			throw new BizError(t('emptyPlatform'));
+		}
+		await orm(c).delete(oauth).where(and(eq(oauth.userId, userId), eq(oauth.platform, platform))).run();
 	},
 
 	async deleteByUserIds(c, userIds) {
