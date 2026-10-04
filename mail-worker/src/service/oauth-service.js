@@ -22,9 +22,12 @@ const oauthService = {
 			throw new BizError('用户已绑定有邮箱')
 		}
 
-		await loginService.register(c, { email, password: cryptoUtils.genRandomPwd(), code }, true);
-
+		// 邮箱已存在则直接关联，不存在才注册新用户
 		userRow = await userService.selectByEmail(c, email);
+		if (!userRow) {
+			await loginService.register(c, { email, password: cryptoUtils.genRandomPwd(), code }, true);
+			userRow = await userService.selectByEmail(c, email);
+		}
 
 		orm(c).update(oauth).set({ userId: userRow.userId }).where(eq(oauth.oauthUserId, oauthUserId)).run();
 		const jwtToken = await loginService.login(c, { email, password: null }, true);
