@@ -129,6 +129,37 @@ const oauthService = {
 		userInfo.avatar = userInfo.avatar_url;
 		userInfo.platform = 'github';
 
+		// /user 接口不返回私密邮箱，需单独调用 /user/emails 获取
+		try {
+			const emailRes = await fetch('https://api.github.com/user/emails', {
+				headers: {
+					'Authorization': `Bearer ${token.access_token}`,
+					'User-Agent': 'cloud-mail'
+				}
+			});
+			if (emailRes.ok) {
+				const emails = await emailRes.json();
+				const primaryEmail = emails.find(e => e.primary && e.verified) || emails.find(e => e.verified) || emails[0];
+				if (primaryEmail && primaryEmail.email) {
+					userInfo.email = primaryEmail.email;
+				}
+			}
+		} catch (e) {
+			// 获取邮箱失败则走手动绑定流程
+		}
+
+		// 拿到邮箱后自动注册/关联，避免手动绑定
+		if (userInfo.email) {
+			let userRow = await userService.selectByEmail(c, userInfo.email);
+			if (!userRow) {
+				await loginService.register(c, { email: userInfo.email, password: cryptoUtils.genRandomPwd() }, true);
+				userRow = await userService.selectByEmail(c, userInfo.email);
+			}
+			if (userRow) {
+				userInfo.userId = userRow.userId;
+			}
+		}
+
 		return await this.saveAndLogin(c, userInfo);
 	},
 
