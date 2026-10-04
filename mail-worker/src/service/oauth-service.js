@@ -31,6 +31,11 @@ const oauthService = {
 			if (!await cryptoUtils.verifyPassword(password, userRow.salt, userRow.password)) {
 				throw new BizError(t('IncorrectPwd'));
 			}
+			// 该邮箱已绑定过其他 OAuth 账号时，不允许重复绑定
+			const existOauth = await orm(c).select().from(oauth).where(eq(oauth.userId, userRow.userId)).get();
+			if (existOauth && existOauth.oauthUserId !== oauthUserId) {
+				throw new BizError(t('emailAlreadyBound'));
+			}
 		} else {
 			await loginService.register(c, { email, password: cryptoUtils.genRandomPwd(), code }, true);
 			userRow = await userService.selectByEmail(c, email);

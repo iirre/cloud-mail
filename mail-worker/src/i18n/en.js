@@ -1,6 +1,7 @@
 const en = {
 	IncorrectPwd: 'Incorrect password',
 	emptyPwd: 'Password cannot be empty',
+	emailAlreadyBound: 'This email is already bound to another OAuth account, please unbind first',
 	addAccountDisabled: 'Add Email Address feature is disabled',
 	regDisabled: 'Sign up is disabled',
 	emptyEmail: 'Email cannot be empty',
