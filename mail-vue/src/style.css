@@ -1,4 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap');
+@font-face {
+  font-family: 'ZCOOL KuaiLe';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/ZCOOLKuaiLe.ttf') format('truetype');
+}
 * {
     margin: 0;
     padding: 0;
