@@ -54,6 +54,12 @@ jobs:
         run: pnpm install --frozen-lockfile
         working-directory: ./mail-worker
 
+      - name: 🔨 构建前端 / Build frontend
+        working-directory: ./mail-vue
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm build
+
       - name: 📡 禁用 Wrangler 遥测 / Disable wrangler telemetry
         working-directory: ./mail-worker
         run: pnpm wrangler telemetry disable
