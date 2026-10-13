@@ -631,10 +631,6 @@ function submitRegister() {
 </style>
 
 <style lang="scss" scoped>
-/* 登录页全站酷快乐体 */
-#login-box, #login-box .el-input__inner, #login-box .el-button, #login-box input, #login-box button {
-  font-family: "ZCOOL KuaiLe", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", sans-serif;
-}
 
 .form-wrapper {
   position: fixed;
