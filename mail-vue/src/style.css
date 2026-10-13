@@ -219,5 +219,5 @@ html[data-theme-to="light"]::view-transition-old(root) {
 
 /* 登录页：站酷快乐体 */
 #login-box, #login-box .el-input__inner, #login-box .el-button, #login-box input, #login-box button, #login-box span, #login-box div {
-  font-family: "ZCOOL KuaiLe", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", sans-serif;
+  font-family: 'ZCOOL KuaiLe', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', sans-serif;
 }
